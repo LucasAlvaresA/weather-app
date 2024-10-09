@@ -1,0 +1,15 @@
+export const weatherIcons: { [key: string]: string } = {
+    Clear: "☀️",
+    Clouds: "☁️",
+    Rain: "🌧️",
+    Snow: "❄️",
+    Mist: "🌫️",
+    Drizzle: "🌦️",
+    Thunderstorm: "⛈️",
+    Fog: "🌁",
+    Sand: "🏜️",
+    Dust: "🌪️",
+    Ash: "🌋",
+    Squall: "🌬️",
+    Tornado: "🌪️",
+};

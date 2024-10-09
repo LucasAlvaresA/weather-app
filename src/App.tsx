@@ -1,10 +1,11 @@
+import { WeatherComponent } from "./components/WeatherComponent";
 import { GlobalStyle } from "./GlobalStyle";
 
 function App() {
     return (
         <>
             <GlobalStyle />
-            <h1>hi</h1>
+            <WeatherComponent />
         </>
     );
 }
