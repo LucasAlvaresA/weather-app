@@ -62,34 +62,73 @@ export const WeatherComponent = () => {
                 <Styled.TemperatureToggle>
                     <Styled.TemperatureButton
                         onClick={() => setUnit("metric")}
-                        active={unit === "metric"}
+                        $active={unit === "metric"}
                     >
                         °C
                     </Styled.TemperatureButton>
                     <Styled.TemperatureButton
                         onClick={() => setUnit("imperial")}
-                        active={unit === "imperial"}
+                        $active={unit === "imperial"}
                     >
                         °F
                     </Styled.TemperatureButton>
                 </Styled.TemperatureToggle>
             </Styled.Navbar>
+            <Styled.WeatherCard>
+                <Styled.MainArea>
+                    <Styled.WeatherIcon>
+                        {weatherData
+                            ? weatherIcons[weatherData.weather[0].main]
+                            : "🌍"}
+                    </Styled.WeatherIcon>
+                    <Styled.TemperatureArea>
+                        <Styled.Temperature>
+                            {Math.floor(weatherData?.main.temp ?? 0)}
+                            <Styled.TemperatureType>
+                                {unit === "metric" ? "°C" : "°F"}
+                            </Styled.TemperatureType>
+                        </Styled.Temperature>
+                        <Styled.WeatherType>
+                            {weatherData?.weather[0].main}
+                        </Styled.WeatherType>
+                    </Styled.TemperatureArea>
+                </Styled.MainArea>
 
-            <Styled.WeatherIcon>
-                {weatherData ? weatherIcons[weatherData.weather[0].main] : "🌍"}
-            </Styled.WeatherIcon>
-
-            <Styled.TemperatureArea>
-                <Styled.Temperature>
-                    {Math.floor(weatherData?.main.temp ?? 0)}
-                    <Styled.TemperatureType>
-                        {unit === "metric" ? "°C" : "°F"}
-                    </Styled.TemperatureType>
-                </Styled.Temperature>
-                <Styled.WeatherType>
-                    {weatherData?.weather[0].main}
-                </Styled.WeatherType>
-            </Styled.TemperatureArea>
+                <Styled.HighlightArea>
+                    <Styled.HighlightCard>
+                        <Styled.HighlightTitle>Max Temp</Styled.HighlightTitle>
+                        <Styled.HighlightInfo>
+                            {weatherData
+                                ? Math.floor(weatherData?.main.temp_max)
+                                : 0}
+                            {unit === "metric" ? "°C" : "°F"}
+                        </Styled.HighlightInfo>
+                    </Styled.HighlightCard>
+                    <Styled.HighlightCard>
+                        <Styled.HighlightTitle>Min Temp</Styled.HighlightTitle>
+                        <Styled.HighlightInfo>
+                            {weatherData
+                                ? Math.floor(weatherData?.main.temp_min)
+                                : 0}
+                            {unit === "metric" ? "°C" : "°F"}
+                        </Styled.HighlightInfo>
+                    </Styled.HighlightCard>
+                    <Styled.HighlightCard>
+                        <Styled.HighlightTitle>Humidity</Styled.HighlightTitle>
+                        <Styled.HighlightInfo>
+                            {weatherData ? weatherData.main.humidity : 0}%
+                        </Styled.HighlightInfo>
+                    </Styled.HighlightCard>
+                    <Styled.HighlightCard>
+                        <Styled.HighlightTitle>
+                            Wind Speed
+                        </Styled.HighlightTitle>
+                        <Styled.HighlightInfo>
+                            {weatherData ? weatherData.wind.speed : 0}
+                        </Styled.HighlightInfo>
+                    </Styled.HighlightCard>
+                </Styled.HighlightArea>
+            </Styled.WeatherCard>
 
             <Styled.DateArea>
                 <Styled.Date>
