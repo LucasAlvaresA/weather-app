@@ -2,19 +2,8 @@ import { useEffect, useState } from "react";
 import * as Styled from "./styles";
 import { getWeather } from "../../services/weatherService";
 import { weatherIcons } from "../utils/weatherIcons";
-
-interface WeatherData {
-    main: {
-        temp: number;
-    };
-    weather: {
-        main: string;
-    }[];
-    name: string;
-    sys: {
-        country: string;
-    };
-}
+import { WeatherData } from "../../types/weatherData";
+import { toast } from "react-toastify";
 
 export const WeatherComponent = () => {
     const [inputValue, setInputValue] = useState("");
@@ -31,7 +20,11 @@ export const WeatherComponent = () => {
             setWeatherData(data);
             setCurrentCity(city);
         } catch (error) {
-            console.log(error);
+            if (error instanceof Error) {
+                toast.error(error.message);
+            } else {
+                toast.error("An unknown error occurred.");
+            }
         }
     };
 
@@ -54,32 +47,33 @@ export const WeatherComponent = () => {
 
     return (
         <Styled.Container>
-            <Styled.SearchArea>
-                <Styled.SearchInput
-                    value={inputValue}
-                    onChange={(e) => setInputValue(e.target.value)}
-                    placeholder="Search for places..."
-                    onKeyDown={handleKeyDown}
-                />
-                <Styled.SearchButton onClick={handleSearch}>
-                    Search
-                </Styled.SearchButton>
-            </Styled.SearchArea>
-
-            {/* <Styled.TemperatureToggle> */}
-            <Styled.SearchButton
-                onClick={() => setUnit("metric")}
-                // active={unit === "metric"}
-            >
-                °C
-            </Styled.SearchButton>
-            <Styled.SearchButton
-                onClick={() => setUnit("imperial")}
-                // active={unit === "imperial"}
-            >
-                °F
-            </Styled.SearchButton>
-            {/* </Styled.TemperatureToggle> */}
+            <Styled.Navbar>
+                <Styled.SearchArea>
+                    <Styled.SearchInput
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        placeholder="Search for places..."
+                        onKeyDown={handleKeyDown}
+                    />
+                    <Styled.SearchButton onClick={handleSearch}>
+                        Search
+                    </Styled.SearchButton>
+                </Styled.SearchArea>
+                <Styled.TemperatureToggle>
+                    <Styled.TemperatureButton
+                        onClick={() => setUnit("metric")}
+                        active={unit === "metric"}
+                    >
+                        °C
+                    </Styled.TemperatureButton>
+                    <Styled.TemperatureButton
+                        onClick={() => setUnit("imperial")}
+                        active={unit === "imperial"}
+                    >
+                        °F
+                    </Styled.TemperatureButton>
+                </Styled.TemperatureToggle>
+            </Styled.Navbar>
 
             <Styled.WeatherIcon>
                 {weatherData ? weatherIcons[weatherData.weather[0].main] : "🌍"}

@@ -18,8 +18,7 @@ export const getGeolocation = async (
         );
         return data;
     } catch (error: any) {
-        console.error("Error fetching geolocation:", error.message);
-        return null;
+        throw new Error(`Error fetching geolocation: ${error.message}`);
     }
 };
 
@@ -35,11 +34,10 @@ const getWeatherByUnits = async (
         return data;
     } catch (error: any) {
         if (error.response) {
-            console.error("API Response Error:", error.response.data);
+            throw new Error(`API Response Error: ${error.response.data}`);
         } else {
-            console.error("Error:", error.message);
+            throw new Error(`Error: ${error.message}`);
         }
-        return null;
     }
 };
 
@@ -53,7 +51,6 @@ export const getWeather = async (
         const { lat, lon } = geoData[0];
         return await getWeatherByUnits(lat, lon, units);
     } else {
-        console.error("Geolocation data not found for city:", city);
-        return null;
+        throw new Error(`Geolocation data not found for city: ${city}`);
     }
 };
