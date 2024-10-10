@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
 export const Container = styled.div`
     width: 100vw;
@@ -38,9 +38,19 @@ export const SearchInput = styled.input`
     background-color: #6e707a;
     border: none;
     color: white;
+    padding: 0 10px;
+    font-size: 16px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transition: box-shadow 0.3s ease, background-color 0.3s ease;
 
     &::placeholder {
         color: #999aa2;
+    }
+
+    &:focus {
+        outline: none;
+        background-color: #4a4e58;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
     }
 `;
 
@@ -51,6 +61,20 @@ export const SearchButton = styled.button`
     background-color: #6e707a;
     border: none;
     color: white;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+        background-color: #575b61;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    &:active {
+        background-color: #4a4e58;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
 `;
 
 export const TemperatureToggle = styled.div`
@@ -71,6 +95,28 @@ export const TemperatureButton = styled.button<{ $active: boolean }>`
     &:hover {
         background-color: rgba(255, 255, 255, 0.2);
     }
+`;
+
+const spin = keyframes`
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+`;
+
+export const LoadingIndicator = styled.div`
+    width: 50px;
+    height: 50px;
+    border: 8px solid rgba(255, 255, 255, 0.3);
+    border-top: 8px solid #ffffff;
+    border-radius: 50%;
+    animation: ${spin} 1s linear infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
 `;
 
 export const WeatherCard = styled.div`

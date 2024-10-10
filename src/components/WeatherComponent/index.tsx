@@ -10,11 +10,13 @@ export const WeatherComponent = () => {
     const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
     const [unit, setUnit] = useState<"metric" | "imperial">("metric");
     const [currentCity, setCurrentCity] = useState<string>("belo horizonte");
+    const [loading, setLoading] = useState(false);
 
     const getWeatherByCity = async (
         city: string,
         unit: "metric" | "imperial"
     ) => {
+        setLoading(true);
         try {
             const data = await getWeather(city, unit);
             setWeatherData(data);
@@ -25,6 +27,8 @@ export const WeatherComponent = () => {
             } else {
                 toast.error("An unknown error occurred.");
             }
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -74,61 +78,72 @@ export const WeatherComponent = () => {
                     </Styled.TemperatureButton>
                 </Styled.TemperatureToggle>
             </Styled.Navbar>
-            <Styled.WeatherCard>
-                <Styled.MainArea>
-                    <Styled.WeatherIcon>
-                        {weatherData
-                            ? weatherIcons[weatherData.weather[0].main]
-                            : "🌍"}
-                    </Styled.WeatherIcon>
-                    <Styled.TemperatureArea>
-                        <Styled.Temperature>
-                            {Math.floor(weatherData?.main.temp ?? 0)}
-                            <Styled.TemperatureType>
-                                {unit === "metric" ? "°C" : "°F"}
-                            </Styled.TemperatureType>
-                        </Styled.Temperature>
-                        <Styled.WeatherType>
-                            {weatherData?.weather[0].main}
-                        </Styled.WeatherType>
-                    </Styled.TemperatureArea>
-                </Styled.MainArea>
 
-                <Styled.HighlightArea>
-                    <Styled.HighlightCard>
-                        <Styled.HighlightTitle>Max Temp</Styled.HighlightTitle>
-                        <Styled.HighlightInfo>
+            {loading ? (
+                <Styled.LoadingIndicator />
+            ) : (
+                <Styled.WeatherCard>
+                    <Styled.MainArea>
+                        <Styled.WeatherIcon>
                             {weatherData
-                                ? Math.floor(weatherData?.main.temp_max)
-                                : 0}
-                            {unit === "metric" ? "°C" : "°F"}
-                        </Styled.HighlightInfo>
-                    </Styled.HighlightCard>
-                    <Styled.HighlightCard>
-                        <Styled.HighlightTitle>Min Temp</Styled.HighlightTitle>
-                        <Styled.HighlightInfo>
-                            {weatherData
-                                ? Math.floor(weatherData?.main.temp_min)
-                                : 0}
-                            {unit === "metric" ? "°C" : "°F"}
-                        </Styled.HighlightInfo>
-                    </Styled.HighlightCard>
-                    <Styled.HighlightCard>
-                        <Styled.HighlightTitle>Humidity</Styled.HighlightTitle>
-                        <Styled.HighlightInfo>
-                            {weatherData ? weatherData.main.humidity : 0}%
-                        </Styled.HighlightInfo>
-                    </Styled.HighlightCard>
-                    <Styled.HighlightCard>
-                        <Styled.HighlightTitle>
-                            Wind Speed
-                        </Styled.HighlightTitle>
-                        <Styled.HighlightInfo>
-                            {weatherData ? weatherData.wind.speed : 0}
-                        </Styled.HighlightInfo>
-                    </Styled.HighlightCard>
-                </Styled.HighlightArea>
-            </Styled.WeatherCard>
+                                ? weatherIcons[weatherData.weather[0].main]
+                                : "🌍"}
+                        </Styled.WeatherIcon>
+                        <Styled.TemperatureArea>
+                            <Styled.Temperature>
+                                {Math.floor(weatherData?.main.temp ?? 0)}
+                                <Styled.TemperatureType>
+                                    {unit === "metric" ? "°C" : "°F"}
+                                </Styled.TemperatureType>
+                            </Styled.Temperature>
+                            <Styled.WeatherType>
+                                {weatherData?.weather[0].main}
+                            </Styled.WeatherType>
+                        </Styled.TemperatureArea>
+                    </Styled.MainArea>
+
+                    <Styled.HighlightArea>
+                        <Styled.HighlightCard>
+                            <Styled.HighlightTitle>
+                                Max Temp
+                            </Styled.HighlightTitle>
+                            <Styled.HighlightInfo>
+                                {weatherData
+                                    ? Math.floor(weatherData?.main.temp_max)
+                                    : 0}
+                                {unit === "metric" ? "°C" : "°F"}
+                            </Styled.HighlightInfo>
+                        </Styled.HighlightCard>
+                        <Styled.HighlightCard>
+                            <Styled.HighlightTitle>
+                                Min Temp
+                            </Styled.HighlightTitle>
+                            <Styled.HighlightInfo>
+                                {weatherData
+                                    ? Math.floor(weatherData?.main.temp_min)
+                                    : 0}
+                                {unit === "metric" ? "°C" : "°F"}
+                            </Styled.HighlightInfo>
+                        </Styled.HighlightCard>
+                        <Styled.HighlightCard>
+                            <Styled.HighlightTitle>
+                                Humidity
+                            </Styled.HighlightTitle>
+                            <Styled.HighlightInfo>
+                                {weatherData ? weatherData.main.humidity : 0}%
+                            </Styled.HighlightInfo>
+                        </Styled.HighlightCard>
+                        <Styled.HighlightCard>
+                            <Styled.HighlightTitle>
+                                Wind Speed
+                            </Styled.HighlightTitle>
+                            <Styled.HighlightInfo>
+                                {weatherData ? weatherData.wind.speed : 0}
+                            </Styled.HighlightInfo>
+                        </Styled.HighlightCard>
+                    </Styled.HighlightArea>
+                </Styled.WeatherCard>
+            )}
 
             <Styled.DateArea>
                 <Styled.Date>
